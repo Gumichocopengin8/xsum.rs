@@ -1,4 +1,4 @@
-use xsum::{XsumLarge, XsumSmall};
+use xsum::{XsumExt, XsumLarge, XsumSmall};
 
 fn is_valid(actual: f64, expected: f64) -> bool {
     if !actual.is_nan()
@@ -20,4 +20,6 @@ pub fn same_value(vec: &[f64], expected: f64) {
     let mut xsumlarge = XsumLarge::new();
     xsumlarge.add_list(vec);
     assert!(is_valid(xsumlarge.sum(), expected));
+
+    assert!(is_valid(vec.xsum(), expected));
 }

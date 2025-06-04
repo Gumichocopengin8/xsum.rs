@@ -21,3 +21,6 @@ pub(crate) const XSUM_SMALL_CARRY_TERMS: i64 = (1 << XSUM_SMALL_CARRY_BITS) - 1;
 // CONSTANTS DEFINING THE LARGE ACCUMULATOR FORMAT
 pub(crate) const XSUM_LCOUNT_BITS: i64 = 64 - XSUM_MANTISSA_BITS; // # of bits in count
 pub(crate) const XSUM_LCHUNKS: i64 = 1 << (XSUM_EXP_BITS + 1); // # of chunks in large accumulator
+
+// Misc
+pub(crate) const XSUM_THRESHOLD: usize = 15_000;

@@ -10,7 +10,7 @@ pub(crate) struct LargeAccumulator {
     pub(crate) m_chunk: [u64; XSUM_LCHUNKS as usize], // Chunks making up large accumulator
     pub(crate) m_count: [i32; XSUM_LCHUNKS as usize], // Counts of # adds remaining for chunks, or -1 if not used yet or special
     pub(crate) m_chunks_used: [u64; (XSUM_LCHUNKS / 64) as usize], // Bits indicate chunks in use
-    pub(crate) m_used_used: u64,                       // Bits indicate chunk_used entries not 0
+    pub(crate) m_used_used: u64,                      // Bits indicate chunk_used entries not 0
     pub(crate) m_sacc: SmallAccumulator,              // The small accumulator to condense into
 }
 impl LargeAccumulator {
