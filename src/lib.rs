@@ -1,4 +1,7 @@
 mod accumulators;
 mod constants;
-pub mod xsum_large;
-pub mod xsum_small;
+mod xsum_large;
+mod xsum_small;
+
+pub use xsum_large::XsumLarge;
+pub use xsum_small::XsumSmall;

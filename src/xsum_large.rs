@@ -20,13 +20,13 @@ impl XsumLarge {
         }
     }
 
-    pub fn addv(&mut self, vec: &[f64]) {
+    pub fn add_list(&mut self, vec: &[f64]) {
         for value in vec {
-            self.add1(*value);
+            self.add(*value);
         }
     }
 
-    pub fn add1(&mut self, value: f64) {
+    pub fn add(&mut self, value: f64) {
         // increment
         self.m_lacc.m_sacc.increment_when_value_added(value);
 

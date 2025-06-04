@@ -36,7 +36,7 @@ impl XsumSmall {
         }
     }
 
-    pub fn addv(&mut self, vec: &[f64]) {
+    pub fn add_list(&mut self, vec: &[f64]) {
         let mut offset: usize = 0;
         let mut n: usize = vec.len();
 
@@ -56,7 +56,7 @@ impl XsumSmall {
         }
     }
 
-    pub fn add1(&mut self, value: f64) {
+    pub fn add(&mut self, value: f64) {
         self.m_sacc.increment_when_value_added(value);
         if self.m_sacc.m_adds_until_propagate == 0 {
             self.m_sacc.carry_propagate();
