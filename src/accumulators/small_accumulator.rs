@@ -46,7 +46,7 @@ impl SmallAccumulator {
     pub(crate) fn carry_propagate(&mut self) -> i32 {
         // Set u to the index of the uppermost non-zero (for now) chunk, or
         // return with value 0 if there is none.
-        let mut u: i32 = (XSUM_SCHUNKS - 1) as i32;
+        let mut u: i32 = XSUM_SCHUNKS - 1;
         while 0 <= u && self.m_chunk[u as usize] == 0 {
             if u == 0 {
                 self.m_adds_until_propagate = XSUM_SMALL_CARRY_TERMS - 1;
@@ -114,7 +114,7 @@ impl SmallAccumulator {
             // an Inf of the right sign.)
 
             self.m_chunk[i as usize] = clow;
-            if i + 1 >= XSUM_SCHUNKS as i32 {
+            if i + 1 >= XSUM_SCHUNKS {
                 self.add_inf_nan((XSUM_EXP_MASK << XSUM_MANTISSA_BITS) | XSUM_MANTISSA_MASK);
                 u = i;
             } else {
@@ -170,7 +170,7 @@ impl SmallAccumulator {
             // Choose the NaN with the bigger payload and clear its sign.
             // Using <= ensures that we will choose the first NaN over the previous zero.
             if (self.m_nan & XSUM_MANTISSA_MASK) <= mantissa {
-                self.m_nan = ivalue & (!XSUM_SIGN_MASK) as i64;
+                self.m_nan = ivalue & { !XSUM_SIGN_MASK };
             }
         }
     }
@@ -181,7 +181,7 @@ impl SmallAccumulator {
         // Extract exponent and mantissa.  Split exponent into high and low parts.
         let exp: i64 = (ivalue >> XSUM_MANTISSA_BITS) & XSUM_EXP_MASK;
         let mut mantissa: i64 = ivalue & XSUM_MANTISSA_MASK;
-        let high_exp: i64 = exp >> XSUM_LOW_EXP_BITS;
+        let high_exp: usize = (exp >> XSUM_LOW_EXP_BITS) as usize;
         let mut low_exp: i64 = exp & XSUM_LOW_EXP_MASK;
 
         // Categorize number as normal, denormalized, or Inf/NaN according to
@@ -220,11 +220,11 @@ impl SmallAccumulator {
 
         // Add to, or subtract from, the two affected chunks.
         if ivalue < 0 {
-            self.m_chunk[high_exp as usize] -= split_mantissa[0];
-            self.m_chunk[(high_exp + 1) as usize] -= split_mantissa[1];
+            self.m_chunk[high_exp] -= split_mantissa[0];
+            self.m_chunk[high_exp + 1] -= split_mantissa[1];
         } else {
-            self.m_chunk[high_exp as usize] += split_mantissa[0];
-            self.m_chunk[(high_exp + 1) as usize] += split_mantissa[1];
+            self.m_chunk[high_exp] += split_mantissa[0];
+            self.m_chunk[high_exp + 1] += split_mantissa[1];
         }
     }
 

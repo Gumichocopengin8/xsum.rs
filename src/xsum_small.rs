@@ -119,7 +119,7 @@ impl XsumSmall {
                 intv = if 0 <= ivalue { ivalue } else { -ivalue };
                 intv >>= 1;
                 if ivalue < 0 {
-                    intv |= XSUM_SIGN_MASK as i64;
+                    intv |= XSUM_SIGN_MASK;
                 }
                 return f64::from_bits(intv as u64);
             } else {
@@ -129,7 +129,7 @@ impl XsumSmall {
                     ivalue * (1i64 << (XSUM_LOW_MANTISSA_BITS - 1)) + (self.m_sacc.m_chunk[0] >> 1);
                 if intv < 0 {
                     if intv > -(1i64 << XSUM_MANTISSA_BITS) {
-                        intv = (-intv) | XSUM_SIGN_MASK as i64;
+                        intv = (-intv) | XSUM_SIGN_MASK;
                         return f64::from_bits(intv as u64);
                     }
                 } else {
@@ -241,7 +241,7 @@ impl XsumSmall {
                 e -= 1;
             }
 
-            intv = XSUM_SIGN_MASK as i64; // negative sign
+            intv = XSUM_SIGN_MASK; // negative sign
             ivalue = -ivalue; // ivalue now contains the absolute value
 
             if (ivalue & 3) == 3 {

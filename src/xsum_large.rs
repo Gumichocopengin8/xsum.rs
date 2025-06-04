@@ -34,10 +34,10 @@ impl XsumLarge {
         let uintv: u64 = value.to_bits();
 
         // Isolate the upper sign+exponent bits that index the chunk.
-        let ix: i32 = (uintv >> XSUM_MANTISSA_BITS) as i32;
+        let ix: usize = (uintv >> XSUM_MANTISSA_BITS) as usize;
 
         // Find the count for this chunk, and subtract one.
-        let count: i32 = self.m_lacc.m_count[ix as usize] - 1;
+        let count: i32 = self.m_lacc.m_count[ix] - 1;
 
         if count < 0 {
             // If the decremented count is negative, it's either a special
@@ -48,8 +48,8 @@ impl XsumLarge {
         } else {
             // Store the decremented count of additions allowed before transfer,
             // and add this value to the chunk.
-            self.m_lacc.m_count[ix as usize] = count;
-            self.m_lacc.m_chunk[ix as usize] = self.m_lacc.m_chunk[ix as usize].wrapping_add(uintv);
+            self.m_lacc.m_count[ix] = count;
+            self.m_lacc.m_chunk[ix] = self.m_lacc.m_chunk[ix].wrapping_add(uintv);
         }
     }
 
