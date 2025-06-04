@@ -1,0 +1,61 @@
+use crate::{
+    accumulators::large_accumulator::LargeAccumulator, constants::XSUM_MANTISSA_BITS,
+    xsum_small::XsumSmall,
+};
+
+pub struct XsumLarge {
+    m_lacc: LargeAccumulator,
+}
+
+impl Default for XsumLarge {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl XsumLarge {
+    pub fn new() -> Self {
+        Self {
+            m_lacc: LargeAccumulator::new(),
+        }
+    }
+
+    pub fn addv(&mut self, vec: &[f64]) {
+        for value in vec {
+            self.add1(*value);
+        }
+    }
+
+    pub fn add1(&mut self, value: f64) {
+        // increment
+        self.m_lacc.m_sacc.increment_when_value_added(value);
+
+        // Convert to integer form in uintv
+        let uintv: u64 = value.to_bits();
+
+        // Isolate the upper sign+exponent bits that index the chunk.
+        let ix: i32 = (uintv >> XSUM_MANTISSA_BITS) as i32;
+
+        // Find the count for this chunk, and subtract one.
+        let count: i32 = self.m_lacc.m_count[ix as usize] - 1;
+
+        if count < 0 {
+            // If the decremented count is negative, it's either a special
+            // Inf/NaN chunk (in which case count will stay at -1), or one that
+            // needs to be transferred to the small accumulator, or one that
+            // has never been used before and needs to be initialized.
+            self.m_lacc.large_add_value_inf_nan(ix, uintv);
+        } else {
+            // Store the decremented count of additions allowed before transfer,
+            // and add this value to the chunk.
+            self.m_lacc.m_count[ix as usize] = count;
+            self.m_lacc.m_chunk[ix as usize] = self.m_lacc.m_chunk[ix as usize].wrapping_add(uintv);
+        }
+    }
+
+    pub fn sum(&mut self) -> f64 {
+        self.m_lacc.transfer_to_small();
+        let mut xsum_smal = XsumSmall::new_with(&self.m_lacc.m_sacc);
+        xsum_smal.sum()
+    }
+}

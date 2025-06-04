@@ -23,6 +23,19 @@ impl XsumSmall {
         }
     }
 
+    pub(crate) fn new_with(small_accumulator: &SmallAccumulator) -> Self {
+        Self {
+            m_sacc: SmallAccumulator::new_based_on(
+                &small_accumulator.m_chunk,
+                small_accumulator.m_adds_until_propagate,
+                small_accumulator.m_inf,
+                small_accumulator.m_nan,
+                small_accumulator.m_size_count,
+                small_accumulator.m_has_pos_number,
+            ),
+        }
+    }
+
     pub fn addv(&mut self, vec: &[f64]) {
         let mut offset: usize = 0;
         let mut n: usize = vec.len();

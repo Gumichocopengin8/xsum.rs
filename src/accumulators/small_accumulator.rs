@@ -27,15 +27,15 @@ impl SmallAccumulator {
 
     pub(crate) fn new_based_on(
         chunk: &[i64; XSUM_SCHUNKS as usize],
-        adds_until_propagate: i32,
+        adds_until_propagate: i64,
         inf: i64,
         nan: i64,
         size_count: usize,
         has_pos_number: bool,
     ) -> Self {
         Self {
-            m_chunk: chunk.clone(),
-            m_adds_until_propagate: adds_until_propagate as i64,
+            m_chunk: *chunk,
+            m_adds_until_propagate: adds_until_propagate,
             m_inf: inf,
             m_nan: nan,
             m_size_count: size_count,
@@ -85,7 +85,7 @@ impl SmallAccumulator {
                 break;
             }
 
-            let chigh: i64 = c >> XSUM_LOW_MANTISSA_BITS;  // High-order bits of c
+            let chigh: i64 = c >> XSUM_LOW_MANTISSA_BITS; // High-order bits of c
             if chigh == 0 {
                 uix = i;
                 i += 1;
@@ -100,7 +100,7 @@ impl SmallAccumulator {
                 u = i + 1; // we will change chunk[u+1], so we'll need to look at it
             }
 
-            let clow: i64 = c & XSUM_LOW_MANTISSA_MASK;  // Low-order bits of c
+            let clow: i64 = c & XSUM_LOW_MANTISSA_MASK; // Low-order bits of c
             if clow != 0 {
                 uix = i;
             }
@@ -115,9 +115,7 @@ impl SmallAccumulator {
 
             self.m_chunk[i as usize] = clow;
             if i + 1 >= XSUM_SCHUNKS as i32 {
-                self.add_inf_nan(
-                    (XSUM_EXP_MASK << XSUM_MANTISSA_BITS) | XSUM_MANTISSA_MASK,
-                );
+                self.add_inf_nan((XSUM_EXP_MASK << XSUM_MANTISSA_BITS) | XSUM_MANTISSA_MASK);
                 u = i;
             } else {
                 self.m_chunk[(i + 1) as usize] += chigh; // note: this could make this chunk be zero
@@ -150,7 +148,7 @@ impl SmallAccumulator {
         }
 
         self.m_adds_until_propagate = XSUM_SMALL_CARRY_TERMS - 1;
-        uix// Return index of uppermost non-zero chunk
+        uix // Return index of uppermost non-zero chunk
     }
 
     pub(crate) fn add_inf_nan(&mut self, ivalue: i64) {
@@ -164,7 +162,7 @@ impl SmallAccumulator {
             } else if self.m_inf != ivalue {
                 // previous Inf was opposite sign
                 let mut fltv: f64 = f64::from_bits(ivalue as u64);
-                fltv = fltv - fltv; // result will be a NaN
+                fltv -= fltv; // result will be a NaN
                 self.m_inf = fltv.to_bits() as i64;
             }
         } else {
