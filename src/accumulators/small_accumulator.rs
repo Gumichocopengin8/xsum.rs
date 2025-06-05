@@ -5,18 +5,18 @@ use crate::constants::{
 };
 
 pub(crate) struct SmallAccumulator {
-    pub(crate) m_chunk: [i64; XSUM_SCHUNKS as usize], // Chunks making up small accumulator
-    pub(crate) m_adds_until_propagate: i64,           // Number of remaining adds before carry
-    pub(crate) m_inf: i64,                            // If non-zero, +Inf, -Inf, or NaN
-    pub(crate) m_nan: i64,                            // If non-zero, a NaN value with payload
-    pub(crate) m_size_count: usize,                   // number of added values
+    pub(crate) m_chunk: Vec<i64>, // Chunks making up small accumulator
+    pub(crate) m_adds_until_propagate: i64, // Number of remaining adds before carry
+    pub(crate) m_inf: i64,        // If non-zero, +Inf, -Inf, or NaN
+    pub(crate) m_nan: i64,        // If non-zero, a NaN value with payload
+    pub(crate) m_size_count: usize, // number of added values
     pub(crate) m_has_pos_number: bool, // check if added values have at least one positive number
 }
 
 impl SmallAccumulator {
     pub(crate) fn new() -> Self {
         Self {
-            m_chunk: [0; XSUM_SCHUNKS as usize],
+            m_chunk: vec![0; XSUM_SCHUNKS as usize],
             m_adds_until_propagate: XSUM_SMALL_CARRY_TERMS,
             m_inf: 0,
             m_nan: 0,
@@ -26,7 +26,7 @@ impl SmallAccumulator {
     }
 
     pub(crate) fn new_based_on(
-        chunk: &[i64; XSUM_SCHUNKS as usize],
+        chunk: &[i64],
         adds_until_propagate: i64,
         inf: i64,
         nan: i64,
@@ -34,7 +34,7 @@ impl SmallAccumulator {
         has_pos_number: bool,
     ) -> Self {
         Self {
-            m_chunk: *chunk,
+            m_chunk: chunk.to_owned(),
             m_adds_until_propagate: adds_until_propagate,
             m_inf: inf,
             m_nan: nan,

@@ -7,19 +7,19 @@ use crate::{
 };
 
 pub(crate) struct LargeAccumulator {
-    pub(crate) m_chunk: [u64; XSUM_LCHUNKS], // Chunks making up large accumulator
-    pub(crate) m_count: [i32; XSUM_LCHUNKS], // Counts of # adds remaining for chunks, or -1 if not used yet or special
-    pub(crate) m_chunks_used: [u64; XSUM_LCHUNKS / 64], // Bits indicate chunks in use
-    pub(crate) m_used_used: u64,             // Bits indicate chunk_used entries not 0
-    pub(crate) m_sacc: SmallAccumulator,     // The small accumulator to condense into
+    pub(crate) m_chunk: Vec<u64>,       // Chunks making up large accumulator
+    pub(crate) m_count: Vec<i32>, // Counts of # adds remaining for chunks, or -1 if not used yet or special
+    pub(crate) m_chunks_used: Vec<u64>, // Bits indicate chunks in use
+    pub(crate) m_used_used: u64,  // Bits indicate chunk_used entries not 0
+    pub(crate) m_sacc: SmallAccumulator, // The small accumulator to condense into
 }
 impl LargeAccumulator {
     pub(crate) fn new() -> Self {
         //  : m_chunk(XSUM_LCHUNKS), m_count(XSUM_LCHUNKS, -1), m_chunksUsed(XSUM_LCHUNKS / 64, 0), m_usedUsed{0}, m_sacc{}
         Self {
-            m_chunk: [0; XSUM_LCHUNKS],
-            m_count: [-1; XSUM_LCHUNKS],
-            m_chunks_used: [0; (XSUM_LCHUNKS / 64)],
+            m_chunk: vec![0; XSUM_LCHUNKS],
+            m_count: vec![-1; XSUM_LCHUNKS],
+            m_chunks_used: vec![0; XSUM_LCHUNKS / 64],
             m_used_used: 0,
             m_sacc: SmallAccumulator::new(),
         }
