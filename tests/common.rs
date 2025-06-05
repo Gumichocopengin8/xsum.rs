@@ -1,4 +1,4 @@
-use xsum::{XsumAuto, XsumExt, XsumLarge, XsumSmall};
+use xsum::{Xsum, XsumAuto, XsumExt, XsumLarge, XsumSmall};
 
 fn is_valid(actual: f64, expected: f64) -> bool {
     if !actual.is_nan()

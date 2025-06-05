@@ -1,5 +1,12 @@
 use crate::{constants::XSUM_THRESHOLD, xsum_large, xsum_small};
 
+pub trait Xsum {
+    fn new() -> Self;
+    fn add_list(&mut self, vec: &[f64]);
+    fn add(&mut self, value: f64);
+    fn sum(&mut self) -> f64;
+}
+
 pub trait XsumExt {
     fn xsum(&self) -> f64;
 }

@@ -1,4 +1,5 @@
 use crate::{
+    Xsum,
     accumulators::small_accumulator::SmallAccumulator,
     constants::{
         XSUM_EXP_BIAS, XSUM_EXP_MASK, XSUM_LOW_EXP_BITS, XSUM_LOW_MANTISSA_BITS,
@@ -17,12 +18,6 @@ impl Default for XsumSmall {
 }
 
 impl XsumSmall {
-    pub fn new() -> Self {
-        Self {
-            m_sacc: SmallAccumulator::new(),
-        }
-    }
-
     pub(crate) fn new_with(small_accumulator: &SmallAccumulator) -> Self {
         Self {
             m_sacc: SmallAccumulator::new_based_on(
@@ -36,7 +31,23 @@ impl XsumSmall {
         }
     }
 
-    pub fn add_list(&mut self, vec: &[f64]) {
+    pub(crate) fn get_size_count(&self) -> usize {
+        self.m_sacc.m_size_count
+    }
+
+    pub(crate) fn transfer_accumulator(self) -> SmallAccumulator {
+        self.m_sacc
+    }
+}
+
+impl Xsum for XsumSmall {
+    fn new() -> Self {
+        Self {
+            m_sacc: SmallAccumulator::new(),
+        }
+    }
+
+    fn add_list(&mut self, vec: &[f64]) {
         let mut offset: usize = 0;
         let mut n: usize = vec.len();
 
@@ -56,7 +67,7 @@ impl XsumSmall {
         }
     }
 
-    pub fn add(&mut self, value: f64) {
+    fn add(&mut self, value: f64) {
         self.m_sacc.increment_when_value_added(value);
         if self.m_sacc.m_adds_until_propagate == 0 {
             self.m_sacc.carry_propagate();
@@ -65,7 +76,7 @@ impl XsumSmall {
         self.m_sacc.m_adds_until_propagate -= 1;
     }
 
-    pub fn sum(&mut self) -> f64 {
+    fn sum(&mut self) -> f64 {
         // See if we have a NaN from one of the numbers being a NaN, in
         // which case we return the NaN with largest payload, or an infinite
         // result (+Inf, -Inf, or a NaN if both +Inf and -Inf occurred).
@@ -294,13 +305,5 @@ impl XsumSmall {
         intv += (e as i64) << XSUM_MANTISSA_BITS;
         intv += ivalue & XSUM_MANTISSA_MASK; // mask out the implicit 1 bit
         f64::from_bits(intv as u64)
-    }
-
-    pub(crate) fn get_size_count(&self) -> usize {
-        self.m_sacc.m_size_count
-    }
-
-    pub(crate) fn transfer_accumulator(self) -> SmallAccumulator {
-        self.m_sacc
     }
 }

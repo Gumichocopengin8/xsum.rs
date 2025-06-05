@@ -1,5 +1,5 @@
 use crate::{
-    accumulators::large_accumulator::LargeAccumulator, constants::XSUM_MANTISSA_BITS,
+    accumulators::large_accumulator::LargeAccumulator, constants::XSUM_MANTISSA_BITS, traits::Xsum,
     xsum_small::XsumSmall,
 };
 
@@ -14,25 +14,27 @@ impl Default for XsumLarge {
 }
 
 impl XsumLarge {
-    pub fn new() -> Self {
-        Self {
-            m_lacc: LargeAccumulator::new(),
-        }
-    }
-
     pub fn from_xsum_small(xsmall: XsumSmall) -> Self {
         let mut lacc = LargeAccumulator::new();
         lacc.m_sacc = xsmall.transfer_accumulator();
         Self { m_lacc: lacc }
     }
+}
 
-    pub fn add_list(&mut self, vec: &[f64]) {
+impl Xsum for XsumLarge {
+    fn new() -> Self {
+        Self {
+            m_lacc: LargeAccumulator::new(),
+        }
+    }
+
+    fn add_list(&mut self, vec: &[f64]) {
         for value in vec {
             self.add(*value);
         }
     }
 
-    pub fn add(&mut self, value: f64) {
+    fn add(&mut self, value: f64) {
         // increment
         self.m_lacc.m_sacc.increment_when_value_added(value);
 
@@ -59,7 +61,7 @@ impl XsumLarge {
         }
     }
 
-    pub fn sum(&mut self) -> f64 {
+    fn sum(&mut self) -> f64 {
         self.m_lacc.transfer_to_small();
         let mut xsum_smal = XsumSmall::new_with(&self.m_lacc.m_sacc);
         xsum_smal.sum()
