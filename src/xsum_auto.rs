@@ -5,6 +5,24 @@ enum XsumKind {
     XLarge(XsumLarge),
 }
 
+/// XsumAuto is efficient if vector or array size is unknown
+///
+/// It automatically select either XsumSmall or XsumLarge based on the number of added value
+///
+/// If the size if less than or equal to 1,000, use XsumSmall, otherwise, use XsumLarge
+///
+/// # Example
+///
+/// ```
+/// use xsum::{Xsum, XsumAuto};
+///
+/// let mut xauto = XsumAuto::new();
+/// xauto.add_list(&vec![1.0; 10]);
+/// assert_eq!(xauto.sum(), 10.0); // use XsumSmall because input size is 10
+///
+/// xauto.add_list(&vec![1.0; 1_000]);
+/// assert_eq!(xauto.sum(), 1_010.0); // use XsumLarge because input size is 1,010 in total
+/// ```
 pub struct XsumAuto {
     m_xsum: XsumKind,
 }
@@ -42,6 +60,13 @@ impl Xsum for XsumAuto {
         }
     }
 
+    /// ```
+    /// use xsum::{Xsum, XsumAuto};
+    ///
+    /// let mut xauto = XsumAuto::new();
+    /// xauto.add_list(&vec![1.0; 10]);
+    /// assert_eq!(xauto.sum(), 10.0);
+    /// ```
     fn add_list(&mut self, vec: &[f64]) {
         match &mut self.m_xsum {
             XsumKind::XSmall(xsmal) => {
@@ -54,6 +79,16 @@ impl Xsum for XsumAuto {
         }
     }
 
+    /// ```
+    /// use xsum::{Xsum, XsumAuto};
+    ///
+    /// let mut xauto = XsumAuto::new();
+    /// let vec = vec![1.0; 1_000];
+    /// for v in vec {
+    ///     xauto.add(v);
+    /// }
+    /// assert_eq!(xauto.sum(), 1_000.0);
+    /// ```
     fn add(&mut self, value: f64) {
         match &mut self.m_xsum {
             XsumKind::XSmall(xsmal) => {
@@ -66,10 +101,33 @@ impl Xsum for XsumAuto {
         }
     }
 
+    /// ```
+    /// use xsum::{Xsum, XsumAuto};
+    ///
+    /// let mut xauto = XsumAuto::new();
+    /// xauto.add_list(&vec![1.0; 10]);
+    /// assert_eq!(xauto.sum(), 10.0);
+    /// ```
     fn sum(&mut self) -> f64 {
         match &mut self.m_xsum {
             XsumKind::XSmall(xsmall) => xsmall.sum(),
             XsumKind::XLarge(xlarge) => xlarge.sum(),
         }
+    }
+
+    /// ```
+    /// use xsum::{Xsum, XsumAuto};
+    ///
+    /// let mut xauto = XsumAuto::new();
+    /// xauto.add_list(&vec![1.0; 10]);
+    /// assert_eq!(xauto.sum(), 10.0);
+    ///
+    /// xauto.clear();
+    /// let res = xauto.sum(); // -0.0
+    /// assert_eq!(res, -0.0);
+    /// assert!(res.is_sign_negative());
+    /// ```
+    fn clear(&mut self) {
+        *self = Self::default();
     }
 }

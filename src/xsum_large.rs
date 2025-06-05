@@ -3,6 +3,17 @@ use crate::{
     xsum_small::XsumSmall,
 };
 
+/// XsumLarge is efficient if vector or array size is more 1,000
+///
+/// # Example
+///
+/// ```
+/// use xsum::{Xsum, XsumLarge};
+///
+/// let mut xlarge = XsumLarge::new();
+/// xlarge.add_list(&vec![1.0; 1_000]);
+/// assert_eq!(xlarge.sum(), 1_000.0);
+/// ```
 pub struct XsumLarge {
     m_lacc: LargeAccumulator,
 }
@@ -28,12 +39,29 @@ impl Xsum for XsumLarge {
         }
     }
 
+    /// ```
+    /// use xsum::{Xsum, XsumLarge};
+    ///
+    /// let mut xlarge = XsumLarge::new();
+    /// xlarge.add_list(&vec![1.0; 1_000]);
+    /// assert_eq!(xlarge.sum(), 1_000.0);
+    /// ```
     fn add_list(&mut self, vec: &[f64]) {
         for value in vec {
             self.add(*value);
         }
     }
 
+    /// ```
+    /// use xsum::{Xsum, XsumLarge};
+    ///
+    /// let mut xlarge = XsumLarge::new();
+    /// let vec = vec![1.0; 1_000];
+    /// for v in vec {
+    ///     xlarge.add(v);
+    /// }
+    /// assert_eq!(xlarge.sum(), 1_000.0);
+    /// ```
     fn add(&mut self, value: f64) {
         // increment
         self.m_lacc.m_sacc.increment_when_value_added(value);
@@ -61,9 +89,32 @@ impl Xsum for XsumLarge {
         }
     }
 
+    /// ```
+    /// use xsum::{Xsum, XsumLarge};
+    ///
+    /// let mut xlarge = XsumLarge::new();
+    /// xlarge.add_list(&vec![1.0; 1_000]);
+    /// assert_eq!(xlarge.sum(), 1_000.0);
+    /// ```
     fn sum(&mut self) -> f64 {
         self.m_lacc.transfer_to_small();
         let mut xsum_smal = XsumSmall::new_with(&self.m_lacc.m_sacc);
         xsum_smal.sum()
+    }
+
+    /// ```
+    /// use xsum::{Xsum, XsumLarge};
+    ///
+    /// let mut xlarge = XsumLarge::new();
+    /// xlarge.add_list(&vec![1.0; 1_000]);
+    /// assert_eq!(xlarge.sum(), 1_000.0);
+    ///
+    /// xlarge.clear();
+    /// let res = xlarge.sum(); // -0.0
+    /// assert_eq!(res, -0.0);
+    /// assert!(res.is_sign_negative());
+    /// ```
+    fn clear(&mut self) {
+        *self = Self::default();
     }
 }

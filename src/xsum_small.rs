@@ -7,6 +7,16 @@ use crate::{
     },
 };
 
+/// XsumSmall is efficient if vector or array size is less than or equal to 1,000
+///
+/// # Example
+///
+/// ```
+/// use xsum::{Xsum, XsumExt};
+///
+/// let vec = vec![1.0, 2.0, 3.0];
+/// assert_eq!(vec.xsum(), 6.0);
+/// ```
 pub struct XsumSmall {
     m_sacc: SmallAccumulator,
 }
@@ -47,6 +57,13 @@ impl Xsum for XsumSmall {
         }
     }
 
+    /// ```
+    /// use xsum::{Xsum, XsumSmall};
+    ///
+    /// let mut xsmall = XsumSmall::new();
+    /// xsmall.add_list(&vec![1.0, 2.0, 3.0]);
+    /// assert_eq!(xsmall.sum(), 6.0);
+    /// ```
     fn add_list(&mut self, vec: &[f64]) {
         let mut offset: usize = 0;
         let mut n: usize = vec.len();
@@ -67,6 +84,16 @@ impl Xsum for XsumSmall {
         }
     }
 
+    /// ```
+    /// use xsum::{Xsum, XsumSmall};
+    ///
+    /// let mut xsmall = XsumSmall::new();
+    /// let vec = vec![1.0, 2.0, 3.0];
+    /// for v in vec {
+    ///     xsmall.add(v);
+    /// }
+    /// assert_eq!(xsmall.sum(), 6.0);
+    /// ```
     fn add(&mut self, value: f64) {
         self.m_sacc.increment_when_value_added(value);
         if self.m_sacc.m_adds_until_propagate == 0 {
@@ -76,6 +103,13 @@ impl Xsum for XsumSmall {
         self.m_sacc.m_adds_until_propagate -= 1;
     }
 
+    /// ```
+    /// use xsum::{Xsum, XsumSmall};
+    ///
+    /// let mut xsmall = XsumSmall::new();
+    /// xsmall.add_list(&vec![1.0, 2.0, 3.0]);
+    /// assert_eq!(xsmall.sum(), 6.0);
+    /// ```
     fn sum(&mut self) -> f64 {
         // See if we have a NaN from one of the numbers being a NaN, in
         // which case we return the NaN with largest payload, or an infinite
@@ -305,5 +339,21 @@ impl Xsum for XsumSmall {
         intv += (e as i64) << XSUM_MANTISSA_BITS;
         intv += ivalue & XSUM_MANTISSA_MASK; // mask out the implicit 1 bit
         f64::from_bits(intv as u64)
+    }
+
+    /// ```
+    /// use xsum::{Xsum, XsumSmall};
+    ///
+    /// let mut xsmall = XsumSmall::new();
+    /// xsmall.add_list(&vec![1.0; 10]);
+    /// assert_eq!(xsmall.sum(), 10.0);
+    ///
+    /// xsmall.clear();
+    /// let res = xsmall.sum(); // -0.0
+    /// assert_eq!(res, -0.0);
+    /// assert!(res.is_sign_negative());
+    /// ```
+    fn clear(&mut self) {
+        *self = Self::default();
     }
 }

@@ -1,7 +1,27 @@
 [package]
 name = "xsum"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
+rust-version = "1.69"
+license = "MIT"
+authors = ["Keita Nonaka <iKonnyaku40@gmail.com>"]
+categories = ["algorithms", "mathematics", "science"]
+description = "Fast Exact Summation of Floating-Point Numbers"
+documentation = "http://docs.rs/xsum/"
+keywords = [
+  "exact summation",
+  "sum",
+  "floating-point",
+  "summation algorithm",
+  "numerical error",
+]
+readme = "README.md"
+homepage = "https://github.com/Gumichocopengin8/xsum.rs"
+repository = "https://github.com/Gumichocopengin8/xsum.rs"
+exclude = ["/.github"]
+
+[badges]
+mathematics = { status = "actively-developed" }
 
 [dependencies]
 
