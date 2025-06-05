@@ -295,4 +295,12 @@ impl XsumSmall {
         intv += ivalue & XSUM_MANTISSA_MASK; // mask out the implicit 1 bit
         f64::from_bits(intv as u64)
     }
+
+    pub(crate) fn get_size_count(&self) -> usize {
+        self.m_sacc.m_size_count
+    }
+
+    pub(crate) fn transfer_accumulator(self) -> SmallAccumulator {
+        self.m_sacc
+    }
 }

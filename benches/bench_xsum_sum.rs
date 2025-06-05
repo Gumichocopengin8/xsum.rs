@@ -2,7 +2,7 @@ mod common;
 use std::hint::black_box;
 
 use criterion::{BenchmarkId, Criterion, criterion_group, criterion_main};
-use xsum::{XsumLarge, XsumSmall};
+use xsum::{XsumAuto, XsumLarge, XsumSmall};
 
 use crate::common::DATA_MAP_F64;
 
@@ -57,6 +57,32 @@ fn xsumsmall_add_list_bench(c: &mut Criterion) {
                         xsumlarge.add(black_box(*v));
                     }
                     xsumlarge.sum();
+                })
+            },
+        );
+
+        group.bench_with_input(
+            BenchmarkId::new("xsumauto add_list", size),
+            *array,
+            |bench, arr| {
+                bench.iter(|| {
+                    let mut xsumauto = XsumAuto::new();
+                    xsumauto.add_list(black_box(arr));
+                    xsumauto.sum();
+                })
+            },
+        );
+
+        group.bench_with_input(
+            BenchmarkId::new("xsumauto add", size),
+            *array,
+            |bench, arr| {
+                bench.iter(|| {
+                    let mut xsumauto = XsumAuto::new();
+                    for v in arr {
+                        xsumauto.add(black_box(*v));
+                    }
+                    xsumauto.sum();
                 })
             },
         );

@@ -20,6 +20,12 @@ impl XsumLarge {
         }
     }
 
+    pub fn from_xsum_small(xsmall: XsumSmall) -> Self {
+        let mut lacc = LargeAccumulator::new();
+        lacc.m_sacc = xsmall.transfer_accumulator();
+        Self { m_lacc: lacc }
+    }
+
     pub fn add_list(&mut self, vec: &[f64]) {
         for value in vec {
             self.add(*value);
