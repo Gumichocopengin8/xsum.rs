@@ -12,7 +12,7 @@ xsum is able to calculate fast exact summation
 
 Calculates the sum of a small-sized vector or array.
 
-```
+```rs
 use xsum::{Xsum, XsumSmall};
 
 let mut xsmall = XsumSmall::new();
@@ -22,7 +22,7 @@ assert_eq!(xsmall.sum(), 6.0);
 
 Calculates the sum of a large-sized vector or array (more than 1,000 elements).
 
-```
+```rs
 use xsum::{Xsum, XsumLarge};
 
 let mut xlarge = XsumLarge::new();
@@ -32,7 +32,7 @@ assert_eq!(xlarge.sum(), 1000.0);
 
 Calculates the sum of a unknown-sized vector or array.
 
-```
+```rs
 use xsum::{Xsum, XsumAuto};
 
 let mut xauto = XsumAuto::new();
@@ -42,7 +42,7 @@ assert_eq!(xauto.sum(), 1000.0);
 
 ### `add()` to take a floating point number
 
-```
+```rs
 use xsum::{Xsum, XsumSmall};
 
 let mut xsmall = XsumSmall::new();
@@ -53,9 +53,9 @@ for v in vec {
 assert_eq!(xsmall.sum(), 6.0);
 ```
 
-## Chaining Method
+### Chaining Method
 
-```
+```rs
 use xsum::{Xsum, XsumExt};
 
 let vec = vec![1.0, 2.0, 3.0];

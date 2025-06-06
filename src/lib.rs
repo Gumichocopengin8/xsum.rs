@@ -51,7 +51,7 @@
 //! assert_eq!(xsmall.sum(), 6.0);
 //! ```
 //!
-//! # Chaining Method
+//! ## Chaining Method
 //!
 //! ```
 //! use xsum::{Xsum, XsumExt};
