@@ -1,7 +1,7 @@
 mod common;
 use std::hint::black_box;
 
-use criterion::{BenchmarkId, Criterion, criterion_group, criterion_main};
+use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion};
 use xsum::{Xsum, XsumAuto, XsumLarge, XsumSmall};
 
 use crate::common::DATA_MAP_F64;
