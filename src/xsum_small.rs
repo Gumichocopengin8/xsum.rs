@@ -1,10 +1,10 @@
 use crate::{
-    Xsum,
     accumulators::small_accumulator::SmallAccumulator,
     constants::{
         XSUM_EXP_BIAS, XSUM_EXP_MASK, XSUM_LOW_EXP_BITS, XSUM_LOW_MANTISSA_BITS,
         XSUM_MANTISSA_BITS, XSUM_MANTISSA_MASK, XSUM_SIGN_MASK,
     },
+    Xsum,
 };
 
 /// XsumSmall is efficient if vector or array size is less than or equal to 1,000

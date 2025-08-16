@@ -1,4 +1,4 @@
-use crate::{XsumLarge, XsumSmall, constants::XSUM_THRESHOLD, traits::Xsum};
+use crate::{constants::XSUM_THRESHOLD, traits::Xsum, XsumLarge, XsumSmall};
 
 enum XsumKind {
     XSmall(XsumSmall),
