@@ -41,10 +41,12 @@ impl XsumSmall {
         }
     }
 
+    #[inline(always)]
     pub(crate) fn get_size_count(&self) -> usize {
         self.m_sacc.m_size_count
     }
 
+    #[inline(always)]
     pub(crate) fn transfer_accumulator(self) -> SmallAccumulator {
         self.m_sacc
     }
@@ -73,8 +75,7 @@ impl Xsum for XsumSmall {
                 self.m_sacc.carry_propagate();
             }
             let m: usize = std::cmp::min(n, self.m_sacc.m_adds_until_propagate as usize);
-            for i in 0..m {
-                let value: f64 = vec[offset + i];
+            for &value in &vec[offset..offset + m] {
                 self.m_sacc.increment_when_value_added(value);
                 self.m_sacc.add1_no_carry(value);
             }
@@ -94,6 +95,7 @@ impl Xsum for XsumSmall {
     /// }
     /// assert_eq!(xsmall.sum(), 6.0);
     /// ```
+    #[inline(always)]
     fn add(&mut self, value: f64) {
         self.m_sacc.increment_when_value_added(value);
         if self.m_sacc.m_adds_until_propagate == 0 {

@@ -105,6 +105,7 @@ impl LargeAccumulator {
         self.m_used_used |= 1u64 << (ix >> 6);
     }
 
+    #[cold]
     pub(crate) fn large_add_value_inf_nan(&mut self, ix: usize, uintv: u64) {
         if (ix as i64 & XSUM_EXP_MASK) == XSUM_EXP_MASK {
             self.m_sacc.add_inf_nan(uintv as i64);

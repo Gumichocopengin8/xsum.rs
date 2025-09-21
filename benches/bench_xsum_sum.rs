@@ -1,14 +1,16 @@
 mod common;
 use std::hint::black_box;
 
-use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion};
+use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion, Throughput};
 use xsum::{Xsum, XsumAuto, XsumLarge, XsumSmall};
 
 use crate::common::DATA_MAP_F64;
 
-fn xsumsmall_add_list_bench(c: &mut Criterion) {
+fn xsum_sum_bench(c: &mut Criterion) {
     let mut group = c.benchmark_group("xsum");
     for (size, array) in DATA_MAP_F64.iter() {
+        group.throughput(Throughput::Elements(*size as u64));
+
         group.bench_with_input(
             BenchmarkId::new("xsumsmall add_list", size),
             *array,
@@ -16,7 +18,7 @@ fn xsumsmall_add_list_bench(c: &mut Criterion) {
                 bench.iter(|| {
                     let mut xsumsmall = XsumSmall::new();
                     xsumsmall.add_list(black_box(arr));
-                    xsumsmall.sum();
+                    black_box(xsumsmall.sum());
                 })
             },
         );
@@ -30,7 +32,7 @@ fn xsumsmall_add_list_bench(c: &mut Criterion) {
                     for v in arr {
                         xsumsmall.add(black_box(*v));
                     }
-                    xsumsmall.sum();
+                    black_box(xsumsmall.sum());
                 })
             },
         );
@@ -42,7 +44,7 @@ fn xsumsmall_add_list_bench(c: &mut Criterion) {
                 bench.iter(|| {
                     let mut xsumlarge = XsumLarge::new();
                     xsumlarge.add_list(black_box(arr));
-                    xsumlarge.sum();
+                    black_box(xsumlarge.sum());
                 })
             },
         );
@@ -56,7 +58,7 @@ fn xsumsmall_add_list_bench(c: &mut Criterion) {
                     for v in arr {
                         xsumlarge.add(black_box(*v));
                     }
-                    xsumlarge.sum();
+                    black_box(xsumlarge.sum());
                 })
             },
         );
@@ -68,7 +70,7 @@ fn xsumsmall_add_list_bench(c: &mut Criterion) {
                 bench.iter(|| {
                     let mut xsumauto = XsumAuto::new();
                     xsumauto.add_list(black_box(arr));
-                    xsumauto.sum();
+                    black_box(xsumauto.sum());
                 })
             },
         );
@@ -82,7 +84,7 @@ fn xsumsmall_add_list_bench(c: &mut Criterion) {
                     for v in arr {
                         xsumauto.add(black_box(*v));
                     }
-                    xsumauto.sum();
+                    black_box(xsumauto.sum());
                 })
             },
         );
@@ -90,5 +92,5 @@ fn xsumsmall_add_list_bench(c: &mut Criterion) {
     group.finish();
 }
 
-criterion_group!(benches, xsumsmall_add_list_bench);
+criterion_group!(benches, xsum_sum_bench);
 criterion_main!(benches);

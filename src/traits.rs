@@ -46,7 +46,7 @@ pub trait XsumExt {
 
 impl XsumExt for [f64] {
     fn xsum(&self) -> f64 {
-        if self.len() > XSUM_THRESHOLD {
+        if self.len() < XSUM_THRESHOLD {
             let mut xsumsmall = xsum_small::XsumSmall::new();
             xsumsmall.add_list(self);
             xsumsmall.sum()
