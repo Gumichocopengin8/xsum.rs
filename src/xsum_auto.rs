@@ -89,6 +89,7 @@ impl Xsum for XsumAuto {
     /// }
     /// assert_eq!(xauto.sum(), 1_000.0);
     /// ```
+    #[inline(always)]
     fn add(&mut self, value: f64) {
         match &mut self.m_xsum {
             XsumKind::XSmall(xsmal) => {

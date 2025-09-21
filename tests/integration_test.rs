@@ -192,10 +192,14 @@ fn complex() {
 #[test]
 fn nan_infinity() {
     same_value(&[NaN], NaN);
+    same_value(&[NaN, 2.4], NaN);
+    same_value(&[INFINITY, NaN], NaN);
+    same_value(&[INFINITY, NaN, 1.5], NaN);
     same_value(&[INFINITY, -INFINITY], NaN);
     same_value(&[-INFINITY, INFINITY], NaN);
 
     same_value(&[INFINITY], INFINITY);
+    same_value(&[INFINITY, 23.3], INFINITY);
     same_value(&[INFINITY, INFINITY], INFINITY);
     same_value(&[-INFINITY], -INFINITY);
     same_value(&[-INFINITY, -INFINITY], -INFINITY);

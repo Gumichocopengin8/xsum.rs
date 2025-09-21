@@ -1,15 +1,16 @@
 use xsum::{Xsum, XsumAuto, XsumExt, XsumLarge, XsumSmall};
 
 fn is_valid(actual: f64, expected: f64) -> bool {
-    if !actual.is_nan()
-        && (actual != expected || actual.is_sign_negative() != expected.is_sign_negative())
-    {
-        return false;
+    // check NaN, 0, -0, infinity, -infinity, finite values
+    if actual.to_bits() == expected.to_bits() {
+        return true;
     }
-    if !actual.is_nan() && expected.is_nan() {
-        return false;
+
+    // check NaN with no payload
+    if actual.is_nan() && expected.is_nan() {
+        return true;
     }
-    true
+    false
 }
 
 pub fn same_value(vec: &[f64], expected: f64) {

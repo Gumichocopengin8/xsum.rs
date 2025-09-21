@@ -151,6 +151,7 @@ impl SmallAccumulator {
         uix // Return index of uppermost non-zero chunk
     }
 
+    #[cold]
     pub(crate) fn add_inf_nan(&mut self, ivalue: i64) {
         let mantissa: i64 = ivalue & XSUM_MANTISSA_MASK;
 

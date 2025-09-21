@@ -47,8 +47,8 @@ impl Xsum for XsumLarge {
     /// assert_eq!(xlarge.sum(), 1_000.0);
     /// ```
     fn add_list(&mut self, vec: &[f64]) {
-        for value in vec {
-            self.add(*value);
+        for &value in vec {
+            self.add(value);
         }
     }
 
@@ -62,6 +62,7 @@ impl Xsum for XsumLarge {
     /// }
     /// assert_eq!(xlarge.sum(), 1_000.0);
     /// ```
+    #[inline(always)]
     fn add(&mut self, value: f64) {
         // increment
         self.m_lacc.m_sacc.increment_when_value_added(value);
