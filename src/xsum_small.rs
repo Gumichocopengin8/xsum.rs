@@ -17,6 +17,7 @@ use crate::{
 /// let vec = vec![1.0, 2.0, 3.0];
 /// assert_eq!(vec.xsum(), 6.0);
 /// ```
+#[derive(Debug)]
 pub struct XsumSmall {
     m_sacc: SmallAccumulator,
 }
@@ -42,7 +43,7 @@ impl XsumSmall {
     }
 
     #[inline(always)]
-    pub(crate) fn get_size_count(&self) -> usize {
+    pub(crate) const fn get_size_count(&self) -> usize {
         self.m_sacc.m_size_count
     }
 
@@ -163,7 +164,7 @@ impl Xsum for XsumSmall {
             // Note that the real exponent is 1 (not 0), so we need to shift right
             // by 1 here.
             if i == 0 {
-                intv = if 0 <= ivalue { ivalue } else { -ivalue };
+                intv = ivalue.abs();
                 intv >>= 1;
                 if ivalue < 0 {
                     intv |= XSUM_SIGN_MASK;
@@ -355,6 +356,7 @@ impl Xsum for XsumSmall {
     /// assert_eq!(res, -0.0);
     /// assert!(res.is_sign_negative());
     /// ```
+    #[inline(always)]
     fn clear(&mut self) {
         *self = Self::default();
     }

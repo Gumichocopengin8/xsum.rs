@@ -13,7 +13,7 @@ fn is_valid(actual: f64, expected: f64) -> bool {
     false
 }
 
-pub fn same_value(vec: &[f64], expected: f64) {
+pub(crate) fn same_value(vec: &[f64], expected: f64) {
     // XsumSmall
     let mut xsumsmall = XsumSmall::new();
     xsumsmall.add_list(vec);

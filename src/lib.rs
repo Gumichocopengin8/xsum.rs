@@ -67,6 +67,7 @@ mod xsum_auto;
 mod xsum_large;
 mod xsum_small;
 
+pub use constants::XSUM_THRESHOLD;
 pub use traits::Xsum;
 pub use traits::XsumExt;
 pub use xsum_auto::XsumAuto;

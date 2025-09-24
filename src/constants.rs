@@ -23,4 +23,7 @@ pub(crate) const XSUM_LCOUNT_BITS: i64 = 64 - XSUM_MANTISSA_BITS; // # of bits i
 pub(crate) const XSUM_LCHUNKS: usize = 1 << (XSUM_EXP_BITS + 1); // # of chunks in large accumulator
 
 // Misc
-pub(crate) const XSUM_THRESHOLD: usize = 1_000;
+
+/// The `XSUM_THRESHOLD` is used to determine whether an xsum is small or large, based on the number of inputs.
+/// This is the default value, but you may use a different value if it works better.
+pub const XSUM_THRESHOLD: usize = 1_000;

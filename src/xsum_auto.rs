@@ -1,5 +1,6 @@
 use crate::{constants::XSUM_THRESHOLD, traits::Xsum, XsumLarge, XsumSmall};
 
+#[derive(Debug)]
 enum XsumKind {
     XSmall(XsumSmall),
     XLarge(XsumLarge),
@@ -23,6 +24,7 @@ enum XsumKind {
 /// xauto.add_list(&vec![1.0; 1_000]);
 /// assert_eq!(xauto.sum(), 1_010.0); // use XsumLarge because input size is 1,010 in total
 /// ```
+#[derive(Debug)]
 pub struct XsumAuto {
     m_xsum: XsumKind,
 }
@@ -38,7 +40,7 @@ impl XsumAuto {
     fn transform_to_large(&mut self) {
         let should_transform = match &self.m_xsum {
             XsumKind::XSmall(xsmall) => xsmall.get_size_count() > XSUM_THRESHOLD,
-            _ => false,
+            XsumKind::XLarge(_) => false,
         };
         if !should_transform {
             return;
@@ -48,7 +50,7 @@ impl XsumAuto {
 
         self.m_xsum = match old_xsum {
             XsumKind::XSmall(xsmall) => XsumKind::XLarge(XsumLarge::from_xsum_small(xsmall)),
-            other => other,
+            other @ XsumKind::XLarge(_) => other,
         };
     }
 }
