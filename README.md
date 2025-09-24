@@ -62,6 +62,10 @@ let vec = vec![1.0, 2.0, 3.0];
 assert_eq!(vec.xsum(), 6.0);
 ```
 
+## Safety
+
+This crate sets `unsafe_code = "forbid"` in `Cargo.toml` to ensure that only safe Rust is used.
+
 ## Documentation
 
 The doc can be found on [docs.rs](https://docs.rs/xsum/).

@@ -14,6 +14,7 @@ use crate::{
 /// xlarge.add_list(&vec![1.0; 1_000]);
 /// assert_eq!(xlarge.sum(), 1_000.0);
 /// ```
+#[derive(Debug)]
 pub struct XsumLarge {
     m_lacc: LargeAccumulator,
 }
@@ -25,6 +26,7 @@ impl Default for XsumLarge {
 }
 
 impl XsumLarge {
+    #[must_use]
     pub fn from_xsum_small(xsmall: XsumSmall) -> Self {
         let mut lacc = LargeAccumulator::new();
         lacc.m_sacc = xsmall.transfer_accumulator();

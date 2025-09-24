@@ -4,6 +4,7 @@ use crate::constants::{
     XSUM_SMALL_CARRY_TERMS,
 };
 
+#[derive(Debug)]
 pub(crate) struct SmallAccumulator {
     pub(crate) m_chunk: Vec<i64>, // Chunks making up small accumulator
     pub(crate) m_adds_until_propagate: i64, // Number of remaining adds before carry
@@ -56,7 +57,7 @@ impl SmallAccumulator {
         }
 
         // At this point, m_chunk[u] must be non-zero
-        assert!(self.m_chunk[u as usize] != 0);
+        assert!(self.m_chunk[u as usize] != 0, "m_chunk[u] must be non-zero");
 
         // Carry propagate, starting at the low-order chunks.  Note that the
         // loop limit of u may be increased inside the loop.

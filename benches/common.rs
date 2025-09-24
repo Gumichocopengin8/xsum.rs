@@ -20,7 +20,7 @@ const ARRAY20000: [f64; 20_000] = generate_array::<20_000>();
 const ARRAY50000: [f64; 50_000] = generate_array::<50_000>();
 const ARRAY100000: [f64; 100_000] = generate_array::<100_000>();
 
-pub static DATA_MAP_F64: LazyLock<HashMap<usize, &'static [f64]>> = LazyLock::new(|| {
+pub(crate) static DATA_MAP_F64: LazyLock<HashMap<usize, &'static [f64]>> = LazyLock::new(|| {
     HashMap::from([
         (10, ARRAY10.as_slice()),
         (100, ARRAY100.as_slice()),
