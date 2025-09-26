@@ -14,7 +14,7 @@ use crate::{
 /// xlarge.add_list(&vec![1.0; 1_000]);
 /// assert_eq!(xlarge.sum(), 1_000.0);
 /// ```
-#[derive(Debug)]
+#[cfg_attr(debug_assertions, derive(Debug))]
 pub struct XsumLarge {
     m_lacc: LargeAccumulator,
 }

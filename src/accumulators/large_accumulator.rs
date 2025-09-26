@@ -6,7 +6,7 @@ use crate::{
     },
 };
 
-#[derive(Debug)]
+#[cfg_attr(debug_assertions, derive(Debug))]
 pub(crate) struct LargeAccumulator {
     pub(crate) m_chunk: Vec<u64>,       // Chunks making up large accumulator
     pub(crate) m_count: Vec<i32>, // Counts of # adds remaining for chunks, or -1 if not used yet or special

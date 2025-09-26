@@ -4,7 +4,7 @@ use crate::constants::{
     XSUM_SMALL_CARRY_TERMS,
 };
 
-#[derive(Debug)]
+#[cfg_attr(debug_assertions, derive(Debug))]
 pub(crate) struct SmallAccumulator {
     pub(crate) m_chunk: Vec<i64>, // Chunks making up small accumulator
     pub(crate) m_adds_until_propagate: i64, // Number of remaining adds before carry
