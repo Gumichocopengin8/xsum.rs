@@ -1,6 +1,6 @@
 use crate::{constants::XSUM_THRESHOLD, traits::Xsum, XsumLarge, XsumSmall};
 
-#[derive(Debug)]
+#[cfg_attr(debug_assertions, derive(Debug))]
 enum XsumKind {
     XSmall(XsumSmall),
     XLarge(XsumLarge),
@@ -24,7 +24,7 @@ enum XsumKind {
 /// xauto.add_list(&vec![1.0; 1_000]);
 /// assert_eq!(xauto.sum(), 1_010.0); // use XsumLarge because input size is 1,010 in total
 /// ```
-#[derive(Debug)]
+#[cfg_attr(debug_assertions, derive(Debug))]
 pub struct XsumAuto {
     m_xsum: XsumKind,
 }

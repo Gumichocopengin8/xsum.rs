@@ -17,7 +17,7 @@ use crate::{
 /// let vec = vec![1.0, 2.0, 3.0];
 /// assert_eq!(vec.xsum(), 6.0);
 /// ```
-#[derive(Debug)]
+#[cfg_attr(debug_assertions, derive(Debug))]
 pub struct XsumSmall {
     m_sacc: SmallAccumulator,
 }
