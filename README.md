@@ -62,6 +62,24 @@ let vec = vec![1.0, 2.0, 3.0];
 assert_eq!(vec.xsum(), 6.0);
 ```
 
+### Variant
+
+If you already know the input size in advance, you can directly select the
+most suitable xsum variant, avoiding unnecessary overhead.
+
+```rs
+use xsum::{Xsum, XsumVariant, XsumAuto, XsumLarge, XsumSmall, constants::XSUM_THRESHOLD};
+
+let vec = vec![1.0; 2_000];
+let mut xVariant = if vec.len() < XSUM_THRESHOLD {
+  XsumVariant::Small(XsumSmall::new())
+} else {
+  XsumVariant::Large(XsumLarge::new())
+};
+xVariant.add_list(&vec);
+assert_eq!(xVariant.sum(), 2_000.0);
+```
+
 ## Safety
 
 This crate sets `unsafe_code = "forbid"` in `Cargo.toml` to ensure that only safe Rust is used.

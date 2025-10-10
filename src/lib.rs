@@ -61,15 +61,16 @@
 //! ```
 
 mod accumulators;
-mod constants;
 mod traits;
 mod xsum_auto;
 mod xsum_large;
 mod xsum_small;
+mod xsum_variant;
 
-pub use constants::XSUM_THRESHOLD;
+pub mod constants;
 pub use traits::Xsum;
 pub use traits::XsumExt;
 pub use xsum_auto::XsumAuto;
 pub use xsum_large::XsumLarge;
 pub use xsum_small::XsumSmall;
+pub use xsum_variant::XsumVariant;
