@@ -14,7 +14,9 @@ xsum is able to calculate fast exact summation.
 - `XsumAuto`: Automatically selects the appropriate variant when the vectors or array size is unknown.
 - `XsumVariant`: Provides a convenient interface for managing multiple Xsum structs.
 
-> [!TIP] > `XsumAuto` internally uses `XsumSmall` and `XsumLarge`.
+> [!TIP]
+>
+> `XsumAuto` internally uses `XsumSmall` and `XsumLarge`.
 > `XsumAuto` has runtime overhead to determine when to switch from `XsumSmall` to `XsumLarge`.
 > If you already know the input size in advance, consider using `XsumVariant` instead to avoid this overhead.
 
