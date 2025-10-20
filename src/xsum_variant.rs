@@ -70,6 +70,7 @@ impl Xsum for XsumVariant {
     /// }
     /// assert_eq!(xVariant.sum(), 2_000.0);
     /// ```
+    #[inline(always)]
     fn add(&mut self, value: f64) {
         match self {
             Self::Small(xsum_small) => xsum_small.add(value),
