@@ -3,7 +3,7 @@ use crate::{
     xsum_small::XsumSmall,
 };
 
-/// XsumLarge is efficient if vector or array size is more 1,000
+/// XsumLarge is efficient when vector or array size is more than 1,000
 ///
 /// # Example
 ///

@@ -213,3 +213,16 @@ fn zeros() {
     same_value(&[-0.0, 0.0], 0.0);
     same_value(&[0.0], 0.0);
 }
+
+#[test]
+fn large_sized_array() {
+    same_value(&[0.1; 1_000], 100.0);
+    same_value(&[0.1; 2_000], 200.0);
+    same_value(&[1e308; 1_000], INFINITY);
+    same_value(&[-1e308; 1_000], -INFINITY);
+    same_value(&[1e-308; 2_000], 1.9999999999999997e-305);
+    same_value(&[NaN; 2_000], NaN);
+    same_value(&[INFINITY; 2_000], INFINITY);
+    same_value(&[-INFINITY; 2_000], -INFINITY);
+    same_value(&[-0.0; 2_000], -0.0);
+}

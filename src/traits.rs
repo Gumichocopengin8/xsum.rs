@@ -1,5 +1,7 @@
 use crate::{constants::XSUM_THRESHOLD, xsum_large, xsum_small};
 
+/// Xsum trait
+///
 /// # Example
 ///
 /// ```

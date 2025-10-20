@@ -7,7 +7,7 @@ use crate::{
     Xsum,
 };
 
-/// XsumSmall is efficient if vector or array size is less than or equal to 1,000
+/// XsumSmall is efficient when vector or array size is less than or equal to 1,000
 ///
 /// # Example
 ///

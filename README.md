@@ -2,9 +2,23 @@
 
 This crate implments xsum algorithm by Radford M. Neal (https://arxiv.org/abs/1505.05571).
 
-xsum is able to calculate fast exact summation
+xsum is able to calculate fast exact summation.
 
-⚠️ Currently, xsum supports `f64` calculation only.
+> [!NOTE]
+> ⚠️ Currently, xsum supports `f64` calculation only.
+
+## Xsum Types
+
+- `XsumSmall`: Optimized for vectors or arrays with up to 1,000 elements.
+- `XsumLarge`: Optimized for vectors or arrays with more than 1,000 elements.
+- `XsumAuto`: Automatically selects the appropriate variant when the vectors or array size is unknown.
+- `XsumVariant`: Provides a convenient interface for managing multiple Xsum structs.
+
+> [!TIP]
+>
+> `XsumAuto` internally uses `XsumSmall` and `XsumLarge`.
+> `XsumAuto` has runtime overhead to determine when to switch from `XsumSmall` to `XsumLarge`.
+> If you already know the input size in advance, consider using `XsumVariant` instead to avoid this overhead.
 
 ## Usage
 
@@ -79,6 +93,10 @@ let mut xVariant = if vec.len() < XSUM_THRESHOLD {
 xVariant.add_list(&vec);
 assert_eq!(xVariant.sum(), 2_000.0);
 ```
+
+## Comformance
+
+xsum comforms to Javascript's [Math.sumPrecise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sumPrecise) behavior.
 
 ## Safety
 

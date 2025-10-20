@@ -172,7 +172,7 @@ impl SmallAccumulator {
             // Choose the NaN with the bigger payload and clear its sign.
             // Using <= ensures that we will choose the first NaN over the previous zero.
             if (self.m_nan & XSUM_MANTISSA_MASK) <= mantissa {
-                self.m_nan = ivalue & { !XSUM_SIGN_MASK };
+                self.m_nan = ivalue & !XSUM_SIGN_MASK;
             }
         }
     }

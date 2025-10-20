@@ -6,7 +6,7 @@ enum XsumKind {
     XLarge(XsumLarge),
 }
 
-/// XsumAuto is efficient if vector or array size is unknown
+/// XsumAuto is efficient when vector or array size is unknown
 ///
 /// It automatically select either XsumSmall or XsumLarge based on the number of added value
 ///
