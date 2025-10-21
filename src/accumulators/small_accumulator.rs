@@ -26,9 +26,9 @@ impl SmallAccumulator {
         }
     }
 
-    pub(crate) fn new_based_on(small_accumulator: &SmallAccumulator) -> Self {
+    pub(crate) fn new_based_on(small_accumulator: &Self) -> Self {
         Self {
-            m_chunk: small_accumulator.m_chunk.to_owned(),
+            m_chunk: small_accumulator.m_chunk.clone(),
             m_adds_until_propagate: small_accumulator.m_adds_until_propagate,
             m_inf: small_accumulator.m_inf,
             m_nan: small_accumulator.m_nan,

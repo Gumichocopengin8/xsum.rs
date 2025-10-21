@@ -31,7 +31,7 @@ impl Default for XsumSmall {
 impl XsumSmall {
     pub(crate) fn new_with(small_accumulator: &SmallAccumulator) -> Self {
         Self {
-            m_sacc: SmallAccumulator::new_based_on(&small_accumulator),
+            m_sacc: SmallAccumulator::new_based_on(small_accumulator),
         }
     }
 
