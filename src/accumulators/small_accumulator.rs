@@ -26,21 +26,14 @@ impl SmallAccumulator {
         }
     }
 
-    pub(crate) fn new_based_on(
-        chunk: &[i64],
-        adds_until_propagate: i64,
-        inf: i64,
-        nan: i64,
-        size_count: usize,
-        has_pos_number: bool,
-    ) -> Self {
+    pub(crate) fn new_based_on(small_accumulator: &SmallAccumulator) -> Self {
         Self {
-            m_chunk: chunk.to_owned(),
-            m_adds_until_propagate: adds_until_propagate,
-            m_inf: inf,
-            m_nan: nan,
-            m_size_count: size_count,
-            m_has_pos_number: has_pos_number,
+            m_chunk: small_accumulator.m_chunk.to_owned(),
+            m_adds_until_propagate: small_accumulator.m_adds_until_propagate,
+            m_inf: small_accumulator.m_inf,
+            m_nan: small_accumulator.m_nan,
+            m_size_count: small_accumulator.m_size_count,
+            m_has_pos_number: small_accumulator.m_has_pos_number,
         }
     }
 
